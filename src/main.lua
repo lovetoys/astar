@@ -22,10 +22,11 @@ require("core/events/mousePressed")
 function love.load()
     love.window.setMode(1280, 720, {fullscreen=false, resizable=false, vsync=true})
 
-    start = nil
-    goal = nil
+    beginning = nil
+    ende = nil
     path = nil
 
+    astar = AStar()
     engine = Engine()
     eventManager = EventManager()
     local mainmouse = MainMousePressedSystem

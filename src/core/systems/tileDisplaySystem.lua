@@ -14,13 +14,13 @@ function TileDisplaySystem:draw()
         else
             love.graphics.setColor(255, 255, 255, 255)
         end
-        if goal then
-            if entity == goal.entity then
+        if ende then
+            if entity == ende.entity then
                 love.graphics.setColor(255, 0, 0, 255)
             end
         end
-        if start then
-            if entity == start.entity then
+        if beginning then
+            if entity == beginning.entity then
                 love.graphics.setColor(0, 255, 0, 255)
             end
         end

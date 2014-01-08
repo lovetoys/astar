@@ -19,9 +19,8 @@ function MainKeySystem.fireEvent(self, event)
         end
         path = nil
     elseif event.key == "return" then
-        print("action")
-        if goal and start then
-            path = AStar:find(matrix, start, goal)
+        if beginning and ende then
+            path = astar:find(matrix, beginning, ende)
         end
     end
 end

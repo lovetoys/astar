@@ -8,7 +8,7 @@ end
 function AStar:find(matrix, start, goal)
     table.insert(self.openlist, start)
     start.g = 0
-    start.f = start.g + heuristicCost(start, goal)
+    start.f = start.g + self.heuristicCost(start, goal)
 
     while #self.openlist ~= 0 do
         local active = self:getLowestF()
@@ -44,7 +44,7 @@ function AStar:find(matrix, start, goal)
 end
 
 function AStar:heuristicCost(start, goal)
-    return distanceBetweenEntities(start.entity ,goal.entity)
+    return distanceBetweenEntities(start.entity, goal.entity)
 end
 
 function AStar:getLowestF()
