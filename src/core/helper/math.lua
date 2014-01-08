@@ -51,3 +51,9 @@ end
 function getAngle(x, y, xt, yt)
     return getRadian(x, y, xt, yt) * 180/math.pi
 end
+
+function getTile(matrix, x, y)
+    local xtile = math.floor(x/40)
+    local ytile = math.floor(y/40)
+    return matrix.matrix[xtile][ytile]
+end

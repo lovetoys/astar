@@ -3,7 +3,6 @@ AStar = class("AStar")
 function AStar:__init()
     self.openlist = {}
     self.closedlist = {}
-    self.lowest
 end
 
 function AStar:find(matrix, start, goal)
@@ -11,7 +10,7 @@ function AStar:find(matrix, start, goal)
     start.g = 0
     start.f = start.g + heuristicCost(start, goal)
 
-    while #self.openlist != 0 do
+    while #self.openlist ~= 0 do
         local active = self:getLowestF()
 
         for index, child in pairs(active.child) do
@@ -61,5 +60,9 @@ end
 function AStar:getPath(element, path)
     table.insert(path, element)
     self:getPath(element.parent, path)
-    return path
+    local correctPath
+    for i = #path, 1, -1 do
+        table.insert(correctPath, path[i])
+    end
+    return correctPath 
 end
