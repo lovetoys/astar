@@ -5,10 +5,10 @@ function AStar:__init()
     self.closedlist = {}
 end
 
-function AStar:find(matrix, start, goal)
+function AStar:find(start, goal)
     table.insert(self.openlist, start)
     start.g = 0
-    start.f = start.g + self.heuristicCost(start, goal)
+    start.f = start.g + self:heuristicCost(start, goal)
 
     while #self.openlist ~= 0 do
         local active = self:getLowestF()

@@ -7,8 +7,10 @@ function distanceBetween(pos1, pos2)
 end
 
 function distanceBetweenEntities(entity1, entity2)
-    position1 = entity1:getComponent("PositionComponent")
-    position2 = entity2:getComponent("PositionComponent")
+    local pos1, pos2 = {}, {}
+    pos1[1], pos1[2] = entity1:getComponent("PositionComponent").x, entity1:getComponent("PositionComponent").y
+    pos2[1], pos2[2] = entity2:getComponent("PositionComponent").x, entity2:getComponent("PositionComponent").y
+    return distanceBetween(pos1, pos2)
 end
 
 function insideRadius(entity1, entity2, radius)

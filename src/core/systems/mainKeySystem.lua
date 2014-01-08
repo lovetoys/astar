@@ -20,7 +20,7 @@ function MainKeySystem.fireEvent(self, event)
         path = nil
     elseif event.key == "return" then
         if beginning and ende then
-            path = astar:find(matrix, beginning, ende)
+            path = astar:find(beginning, ende)
         end
     end
 end
