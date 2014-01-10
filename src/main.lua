@@ -14,6 +14,7 @@ require("core/systems/mainMousePressedSystem")
 --Components
 require("core/components/positionComponent")
 require("core/components/tileComponent")
+require("core/components/collidable")
 
 --Events
 require("core/events/keyPressed")

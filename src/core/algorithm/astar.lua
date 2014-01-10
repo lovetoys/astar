@@ -1,11 +1,11 @@
 AStar = class("AStar")
 
 function AStar:__init()
-    self.openlist = {}
-    self.closedlist = {}
 end
 
 function AStar:find(start, goal)
+    self.openlist = {}
+    self.closedlist = {}
     table.insert(self.openlist, start)
     start.g = 0
     start.f = start.g + self:heuristicCost(start, goal)
@@ -18,7 +18,7 @@ function AStar:find(start, goal)
                 local reactivated = false
                 local notcontained = false
                 if table.contains(self.closedlist, child) then
-                    if child.g < active.g + distanceBetweenEntities(child.entity, active.entity) then
+                    if child.g + distanceBetweenEntities(child.entity, active.entity) < active.g and active.parent ~= child then
                         table.removeElement(self.closedlist, child)
                         reactivated = true
                     end
@@ -29,9 +29,9 @@ function AStar:find(start, goal)
                     child.g = active.g + distanceBetweenEntities(child.entity, active.entity)
                     child.f = child.g + distanceBetweenEntities(child.entity, goal.entity)
                     child.parent = active
-
+                    child.entity:getComponent("TileComponent").active = true
                     if child == goal then
-                        return self.getPath(child, {})
+                        return self:getPath(child)
                     else
                         if not table.contains(self.openlist, child) then
                             table.insert(self.openlist, child)
@@ -39,6 +39,8 @@ function AStar:find(start, goal)
                     end
                 end
             end
+            table.removeElement(self.openlist, active)
+            table.insert(self.closedlist, active)
         end
     end
 end
@@ -57,10 +59,18 @@ function AStar:getLowestF()
     return lowest
 end
 
-function AStar:getPath(element, path)
-    table.insert(path, element)
-    self:getPath(element.parent, path)
-    local correctPath
+function AStar:getPath(element)
+    local path = {}
+    local tile = element
+    while tile do
+        table.insert(path, tile)
+        if tile.parent then
+            tile = tile.parent
+        else
+            tile = nil
+        end
+    end
+    local correctPath = {}
     for i = #path, 1, -1 do
         table.insert(correctPath, path[i])
     end
