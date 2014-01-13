@@ -41,11 +41,11 @@ function love.load()
     engine:addSystem(TileDisplaySystem(), "draw", 1)
     engine:addSystem(PathDisplaySystem(), "draw", 2)
     engine:addSystem(MainKeySystem(), "logic", 1)
-
-    for i = matrix:getWidth(), 0, -1 do
-        for j = matrix:getHeight(), 0, -1 do
+    for i = matrix:getWidth(), 1, -1 do
+        for j = matrix:getHeight(), 1, -1 do
             local entity = Entity()
-            entity:addComponent(PositionComponent(i*40, j*40))
+            matrix.matrix[i][j].index = i*matrix:getHeight() + j
+            entity:addComponent(PositionComponent((i-1)*40, (j-1)*40))
             entity:addComponent(TileComponent(false, false))
             engine:addEntity(entity)
             matrix.matrix[i][j].entity = entity

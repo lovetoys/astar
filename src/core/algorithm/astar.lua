@@ -6,47 +6,46 @@ end
 function AStar:find(start, goal)
     self.openlist = {}
     self.closedlist = {}
-    table.insert(self.openlist, start)
+    self.openlist[start.index] = start
     start.g = 0
-    start.f = start.g + self:heuristicCost(start, goal)
+    start.f = start.g + distanceBetweenEntities(start.entity , goal.entity)
 
-    while #self.openlist ~= 0 do
+    while table.count(self.openlist) ~= 0 do
         local active = self:getLowestF()
 
         for index, child in pairs(active.child) do
             if not child.entity:getComponent("Collidable") then
                 local reactivated = false
                 local notcontained = false
-                if table.contains(self.closedlist, child) then
+                local alreadyopen = false
+                if self.closedlist[child.index] then
                     if child.g + distanceBetweenEntities(child.entity, active.entity) < active.g and active.parent ~= child then
-                        table.removeElement(self.closedlist, child)
+                        self.closedlist[child.index] = nil
                         reactivated = true
+                    end
+                elseif self.openlist[child.index] then
+                    if child.g + distanceBetweenEntities(child.entity, active.entity) < active.g and active.parent ~= child then
+                        alreadyopen = true
                     end
                 else
                     notcontained = true
                 end
-                if notcontained or reactivated then
+                if notcontained or reactivated or alreadyopen then
                     child.g = active.g + distanceBetweenEntities(child.entity, active.entity)
                     child.f = child.g + distanceBetweenEntities(child.entity, goal.entity)
                     child.parent = active
                     child.entity:getComponent("TileComponent").active = true
                     if child == goal then
-                        return self:getPath(child)
-                    else
-                        if not table.contains(self.openlist, child) then
-                            table.insert(self.openlist, child)
-                        end
+                        return self:getPath(child)                        
+                    elseif not alreadyopen then
+                        self.openlist[child.index] = child
                     end
                 end
             end
-            table.removeElement(self.openlist, active)
-            table.insert(self.closedlist, active)
+            self.openlist[active.index] = nil
+            self.closedlist[active.index] = active
         end
     end
-end
-
-function AStar:heuristicCost(start, goal)
-    return distanceBetweenEntities(start.entity, goal.entity)
 end
 
 function AStar:getLowestF()
@@ -62,7 +61,12 @@ end
 function AStar:getPath(element)
     local path = {}
     local tile = element
+    local time = os.time()
     while tile do
+        local elapsed = os.time() - time
+        if elapsed > 1 then
+            break
+        end  
         table.insert(path, tile)
         if tile.parent then
             tile = tile.parent

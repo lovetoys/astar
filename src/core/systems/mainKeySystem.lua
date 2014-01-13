@@ -6,15 +6,22 @@ function MainKeySystem.fireEvent(self, event)
         local x, y = love.mouse.getPosition()
         local tile = getTile(matrix, x, y)
         tile.entity:getComponent("TileComponent").collidable = not tile.entity:getComponent("TileComponent").collidable
-        tile.entity:addComponent(Collidable())
+        if tile.entity:getComponent("Collidable") then
+            tile.entity:removeComponent("Collidable")
+        else
+            tile.entity:addComponent(Collidable())
+        end
     elseif event.key == "escape" then
-        for i = matrix:getWidth(), 0, -1 do
-            for j = matrix:getHeight(), 0, -1 do
+        for index, entity in pairs(engine.entities) do
+            engine:removeEntity(entity)
+        end
+        for i = matrix:getWidth(), 1, -1 do
+            for j = matrix:getHeight(), 1, -1 do
                 local entity = Entity()
-                entity:addComponent(PositionComponent(i*40, j*40))
+                matrix.matrix[i][j].index = i*matrix:getHeight() + j
+                entity:addComponent(PositionComponent((i-1)*40, (j-1)*40))
                 entity:addComponent(TileComponent(false, false))
                 engine:addEntity(entity)
-                engine:removeEntity(matrix.matrix[i][j].entity)
                 matrix.matrix[i][j].entity = entity
             end
         end

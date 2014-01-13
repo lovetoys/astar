@@ -55,7 +55,7 @@ function getAngle(x, y, xt, yt)
 end
 
 function getTile(matrix, x, y)
-    local xtile = math.floor(x/40)
-    local ytile = math.floor(y/40)
+    local xtile = math.ceil(x/40)
+    local ytile = math.ceil(y/40)
     return matrix.matrix[xtile][ytile]
 end
