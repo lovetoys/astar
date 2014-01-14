@@ -2,9 +2,9 @@ Matrix = class("Matrix")
 
 function Matrix:__init(x, y)
     self.matrix = {}
-    for i = x, 0, -1 do
+    for i = x, 1, -1 do
         self.matrix[i] = {}
-        for j = y, 0, -1 do
+        for j = y, 1, -1 do
             self.matrix[i][j] = {child = {}}
         end
     end

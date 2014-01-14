@@ -7,8 +7,9 @@ function AStar:find(start, goal)
     self.openlist = {}
     self.closedlist = {}
     self.openlist[start.index] = start
+    start.h = distanceBetweenEntities(start.entity , goal.entity)
     start.g = 0
-    start.f = start.g + distanceBetweenEntities(start.entity , goal.entity)
+    start.f = start.g + start.h
 
     while table.count(self.openlist) ~= 0 do
         local active = self:getLowestF()
@@ -19,20 +20,21 @@ function AStar:find(start, goal)
                 local notcontained = false
                 local alreadyopen = false
                 if self.closedlist[child.index] then
-                    if child.g + distanceBetweenEntities(child.entity, active.entity) < active.g and active.parent ~= child then
+                    if child.g + distanceBetweenEntities(child.entity, active.entity) < active.g then
                         self.closedlist[child.index] = nil
                         reactivated = true
                     end
                 elseif self.openlist[child.index] then
-                    if child.g + distanceBetweenEntities(child.entity, active.entity) < active.g and active.parent ~= child then
+                    if child.g + distanceBetweenEntities(child.entity, active.entity) < active.g then
                         alreadyopen = true
                     end
                 else
                     notcontained = true
                 end
                 if notcontained or reactivated or alreadyopen then
+                    child.h = distanceBetweenEntities(child.entity, goal.entity)
                     child.g = active.g + distanceBetweenEntities(child.entity, active.entity)
-                    child.f = child.g + distanceBetweenEntities(child.entity, goal.entity)
+                    child.f = child.g + child.h
                     child.parent = active
                     child.entity:getComponent("TileComponent").active = true
                     if child == goal then

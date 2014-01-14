@@ -57,5 +57,9 @@ end
 function getTile(matrix, x, y)
     local xtile = math.ceil(x/40)
     local ytile = math.ceil(y/40)
-    return matrix.matrix[xtile][ytile]
+    if matrix.matrix[xtile] then
+        if matrix.matrix[xtile][ytile] then
+            return matrix.matrix[xtile][ytile]
+        end
+    end
 end

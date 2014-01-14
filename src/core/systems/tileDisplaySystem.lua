@@ -7,7 +7,7 @@ end
 function TileDisplaySystem:draw()
     for index, entity in pairs(self.targets) do
         local position = entity:getComponent("PositionComponent")
-        if entity:getComponent("TileComponent").collidable == true then
+        if entity:getComponent("Collidable") then
             love.graphics.setColor(155, 155, 155, 155)
         elseif entity:getComponent("TileComponent").active == true then
             love.graphics.setColor(27, 195, 248, 155)

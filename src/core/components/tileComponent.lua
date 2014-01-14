@@ -1,7 +1,6 @@
 TileComponent = class("TileComponent")
 
-function TileComponent:__init(active, collidable)
+function TileComponent:__init(active)
     self.active = active or false
-    self.collidable = collidable or false
 end
 

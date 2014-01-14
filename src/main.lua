@@ -46,7 +46,7 @@ function love.load()
             local entity = Entity()
             matrix.matrix[i][j].index = i*matrix:getHeight() + j
             entity:addComponent(PositionComponent((i-1)*40, (j-1)*40))
-            entity:addComponent(TileComponent(false, false))
+            entity:addComponent(TileComponent(false))
             engine:addEntity(entity)
             matrix.matrix[i][j].entity = entity
         end
