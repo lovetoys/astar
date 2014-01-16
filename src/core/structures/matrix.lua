@@ -43,7 +43,7 @@ function Matrix:connect()
     end
 end
 
-function Matrix:connectSites()
+function Matrix:connectSides()
     for index, row in pairs(self.matrix) do
         for index2, column in pairs(self.matrix[index]) do
             if self.matrix[index][index2-1] then
@@ -60,7 +60,7 @@ function Matrix:connectSites()
                  self.matrix[index][index2].child.left = self.matrix[#self.matrix][index2]
             end
             if self.matrix[index+1] then
-                if self.matrix[index-1][index2] then
+                if self.matrix[index+1][index2] then
                     self.matrix[index][index2].child.right = self.matrix[index+1][index2]
                 end
             elseif self.matrix[1][index2] then
