@@ -63,12 +63,7 @@ end
 function AStar:getPath(element)
     local path = {}
     local tile = element
-    local time = os.time()
     while tile do
-        local elapsed = os.time() - time
-        if elapsed > 1 then
-            break
-        end  
         table.insert(path, tile)
         if tile.parent then
             tile = tile.parent
