@@ -13,7 +13,6 @@ function AStar:find(start, goal)
 
     while table.count(self.openlist) ~= 0 do
         local active = self:getLowestF()
-
         for index, child in pairs(active.child) do
             if not child.entity:getComponent("Collidable") then
                 local reactivated = false
