@@ -1,5 +1,3 @@
 Collidable = class("Collidable")
 
-function Collidable:__init()
-
-end
+function Collidable:__init() end

@@ -8,14 +8,14 @@ end
 
 function distanceBetweenEntities(entity1, entity2)
     local pos1, pos2 = {}, {}
-    pos1[1], pos1[2] = entity1:getComponent("PositionComponent").x, entity1:getComponent("PositionComponent").y
-    pos2[1], pos2[2] = entity2:getComponent("PositionComponent").x, entity2:getComponent("PositionComponent").y
+    pos1[1], pos1[2] = entity1:get("PositionComponent").x, entity1:get("PositionComponent").y
+    pos2[1], pos2[2] = entity2:get("PositionComponent").x, entity2:get("PositionComponent").y
     return distanceBetween(pos1, pos2)
 end
 
 function insideRadius(entity1, entity2, radius)
-    position1 = entity1:getComponent("PositionComponent")
-    position2 = entity2:getComponent("PositionComponent")
+    position1 = entity1:get("PositionComponent")
+    position2 = entity2:get("PositionComponent")
     if distanceBetween({position1.x, position1.y}, {position2.x, position2.y}) <= radius
     or distanceBetween({position1.x - love.graphics.getWidth(), position1.y}, {position2.x, position2.y}) <= radius
     or distanceBetween({position1.x + love.graphics.getWidth(), position1.y}, {position2.x, position2.y}) <= radius then
@@ -26,8 +26,8 @@ function insideRadius(entity1, entity2, radius)
 end
 
 function getMid(entity1, entity2)
-    local x1, y1 = entity1:getComponent("PositionComponent").x, entity1:getComponent("PositionComponent").y
-    local x2, y2 = entity2:getComponent("PositionComponent").x, entity2:getComponent("PositionComponent").y
+    local x1, y1 = entity1:get("PositionComponent").x, entity1:get("PositionComponent").y
+    local x2, y2 = entity2:get("PositionComponent").x, entity2:get("PositionComponent").y
 
     return (x1 + x2)/2 , (y1 + y2)/2 
 end

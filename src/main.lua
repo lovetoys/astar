@@ -1,24 +1,23 @@
 -- Lib and Helper
-require("core/lib/lua-lovetoys/lovetoys/engine")
-require("core/helper/math")
-require("core/helper/tables")
+require("lib/lovetoys/src/engine")
+require("helper/math")
+require("helper/tables")
 --Main Algorithm and Strucutres
-require("core/algorithm/astar")
-require("core/structures/matrix")
-require("core/structures/vector")
+require("algorithm/astar")
+require("structures/matrix")
 --Systems
-require("core/systems/tileDisplaySystem")
-require("core/systems/pathDisplaySystem")
-require("core/systems/mainKeySystem")
-require("core/systems/mainMousePressedSystem")
+require("systems/tileDisplaySystem")
+require("systems/pathDisplaySystem")
+require("systems/mainKeySystem")
+require("systems/mainMousePressedSystem")
 --Components
-require("core/components/positionComponent")
-require("core/components/tileComponent")
-require("core/components/collidable")
+require("components/positionComponent")
+require("components/tileComponent")
+require("components/collidable")
 
 --Events
-require("core/events/keyPressed")
-require("core/events/mousePressed")
+require("events/keyPressed")
+require("events/mousePressed")
 
 function love.load()
     love.window.setMode(1280, 720, {fullscreen=false, resizable=false, vsync=true})
@@ -30,8 +29,8 @@ function love.load()
     astar = AStar()
     engine = Engine()
     eventManager = EventManager()
-    local mainmouse = MainMousePressedSystem
-    local mainkey = MainKeySystem
+    local mainmouse = MainMousePressedSystem()
+    local mainkey = MainKeySystem()
     eventManager:addListener("KeyPressed", {mainkey, mainkey.fireEvent})
     eventManager:addListener("MousePressed", {mainmouse, mainmouse.fireEvent})
 
@@ -45,8 +44,8 @@ function love.load()
         for j = matrix:getHeight(), 1, -1 do
             local entity = Entity()
             matrix.matrix[i][j].index = i*matrix:getHeight() + j
-            entity:addComponent(PositionComponent((i-1)*40, (j-1)*40))
-            entity:addComponent(TileComponent(false))
+            entity:add(PositionComponent((i-1)*40, (j-1)*40))
+            entity:add(TileComponent(false))
             engine:addEntity(entity)
             matrix.matrix[i][j].entity = entity
         end

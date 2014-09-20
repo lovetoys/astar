@@ -1,3 +1,3 @@
-[submodule "src/core/lib/lua-lovetoys"]
-	path = src/core/lib/lua-lovetoys
-	url = https://github.com/Nukesor/lua-lovetoys.git
+[submodule "src/lib/lovetoys"]
+	path = src/lib/lovetoys
+	url = git@github.com:Lovetoys/lovetoys.git

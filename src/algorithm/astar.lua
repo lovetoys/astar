@@ -14,7 +14,7 @@ function AStar:find(start, goal)
     while table.count(self.openlist) ~= 0 do
         local active = self:getLowestF()
         for index, child in pairs(active.child) do
-            if not child.entity:getComponent("Collidable") then
+            if not child.entity:get("Collidable") then
                 local reactivated = false
                 local notcontained = false
                 local alreadyopen = false
@@ -35,7 +35,7 @@ function AStar:find(start, goal)
                     child.g = active.g + distanceBetweenEntities(child.entity, active.entity)
                     child.f = child.g + child.h
                     child.parent = active
-                    child.entity:getComponent("TileComponent").active = true
+                    child.entity:get("TileComponent").active = true
                     if child == goal then
                         return self:getPath(child)                        
                     elseif not alreadyopen then

@@ -1,16 +1,15 @@
 MainKeySystem = class("MainKeySystem", System)
 
 function MainKeySystem.fireEvent(self, event)
-    -- Playercutie Jump
     if event.key == " " then
         local x, y = love.mouse.getPosition()
         local tile = getTile(matrix, x, y)
         if tile then
-            tile.entity:getComponent("TileComponent").collidable = not tile.entity:getComponent("TileComponent").collidable
-                if tile.entity:getComponent("Collidable") then
-                tile.entity:removeComponent("Collidable")
+            tile.entity:get("TileComponent").collidable = not tile.entity:get("TileComponent").collidable
+                if tile.entity:get("Collidable") then
+                tile.entity:remove("Collidable")
             else
-                tile.entity:addComponent(Collidable())
+                tile.entity:add(Collidable())
             end
         end
     elseif event.key == "escape" then
@@ -22,8 +21,8 @@ function MainKeySystem.fireEvent(self, event)
                 local entity = Entity()
                 matrix.matrix[i][j] = {}
                 matrix.matrix[i][j].index = i*matrix:getHeight() + j
-                entity:addComponent(PositionComponent((i-1)*40, (j-1)*40))
-                entity:addComponent(TileComponent(false))
+                entity:add(PositionComponent((i-1)*40, (j-1)*40))
+                entity:add(TileComponent(false))
                 engine:addEntity(entity)
                 matrix.matrix[i][j].entity = entity
             end
@@ -38,8 +37,8 @@ function MainKeySystem.fireEvent(self, event)
             end
         end
         for index, entity in pairs(engine.entities) do
-            if entity:getComponent("TileComponent") then
-                entity:getComponent("TileComponent").active = false
+            if entity:get("TileComponent") then
+                entity:get("TileComponent").active = false
             end
         end
         if beginning and ende then
@@ -54,7 +53,7 @@ function MainKeySystem:update()
         local x, y = love.mouse.getPosition()
         local tile = getTile(matrix, x, y)
         if tile then
-            tile.entity:addComponent(Collidable())
+            tile.entity:add(Collidable())
         end
     end
 end
