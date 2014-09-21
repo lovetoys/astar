@@ -21,13 +21,10 @@ function MainKeySystem.fireEvent(self, event)
                 self.is_block = false
             end
         elseif event.key == "escape" then
-            for index, entity in pairs(engine.entities) do
-                engine:removeEntity(entity)
-            end
             for i = matrix:getWidth(), 1, -1 do
                 for j = matrix:getHeight(), 1, -1 do
+                    engine:removeEntity(matrix.matrix[i][j].entity)
                     local entity = Entity()
-                    matrix.matrix[i][j] = {}
                     matrix.matrix[i][j].index = i*matrix:getHeight() + j
                     entity:add(PositionComponent((i-1)*40, (j-1)*40))
                     entity:add(TileComponent(false))
