@@ -37,7 +37,7 @@ function love.load()
     eventManager:addListener("MousePressed", {mainmouse, mainmouse.fireEvent})
 
     matrix = Matrix(32, 18)
-    matrix:connect()
+    matrix:connectEverything()
 
     engine:addSystem(TileDisplaySystem(), "draw", 1)
     engine:addSystem(PathDisplaySystem(), "draw", 2)
