@@ -17,6 +17,7 @@ require("components/collidable")
 
 --Events
 require("events/keyPressed")
+require("events/keyReleased")
 require("events/mousePressed")
 
 function love.load()
@@ -32,6 +33,7 @@ function love.load()
     local mainmouse = MainMousePressedSystem()
     local mainkey = MainKeySystem()
     eventManager:addListener("KeyPressed", {mainkey, mainkey.fireEvent})
+    eventManager:addListener("KeyReleased", {mainkey, mainkey.fireEvent})
     eventManager:addListener("MousePressed", {mainmouse, mainmouse.fireEvent})
 
     matrix = Matrix(32, 18)
@@ -39,7 +41,7 @@ function love.load()
 
     engine:addSystem(TileDisplaySystem(), "draw", 1)
     engine:addSystem(PathDisplaySystem(), "draw", 2)
-    engine:addSystem(MainKeySystem(), "logic", 1)
+    engine:addSystem(mainkey, "logic", 1)
     for i = matrix:getWidth(), 1, -1 do
         for j = matrix:getHeight(), 1, -1 do
             local entity = Entity()
@@ -58,13 +60,20 @@ end
 
 function love.draw()
     engine:draw()
+    love.graphics.setColor(0,0,0,255)
+    love.graphics.print("Press 'Left mousebutton' to place the start", 10, 30)
+    love.graphics.print("Press 'Right mousebutton' to place the end", 10, 50)
+    love.graphics.print("Press and hold 'Space' for placing or removing blocks", 10, 70)
+    love.graphics.print("Press 'Enter' to calculate the route", 10, 90)
+    love.graphics.print("Press 'Escape' to reset the simulation", 10, 110)
 end 
 
 function love.keypressed(key, isrepeat)
     eventManager:fireEvent(KeyPressed(key, isrepeat))
 end
 
-function love.keyreleased(key, isrepeat)
+function love.keyreleased(key)
+    eventManager:fireEvent(KeyReleased(key))
 end
 
 function love.mousepressed(x, y, button)
