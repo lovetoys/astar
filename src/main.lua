@@ -4,7 +4,7 @@ require("helper/math")
 require("helper/tables")
 --Main Algorithm and Strucutres
 require("algorithm/astar")
-require("structures/matrix")
+require("structures/grid")
 --Systems
 require("systems/tileDisplaySystem")
 require("systems/pathDisplaySystem")
@@ -36,22 +36,13 @@ function love.load()
     eventManager:addListener("KeyReleased", {mainkey, mainkey.fireEvent})
     eventManager:addListener("MousePressed", {mainmouse, mainmouse.fireEvent})
 
-    matrix = Matrix(32, 18)
-    matrix:connectEverything()
+    grid = Grid(32, 18)
+    grid:connectEverything()
 
     engine:addSystem(TileDisplaySystem(), "draw", 1)
     engine:addSystem(PathDisplaySystem(), "draw", 2)
     engine:addSystem(mainkey, "logic", 1)
-    for i = matrix:getWidth(), 1, -1 do
-        for j = matrix:getHeight(), 1, -1 do
-            local entity = Entity()
-            matrix.matrix[i][j].index = i*matrix:getHeight() + j
-            entity:add(PositionComponent((i-1)*40, (j-1)*40))
-            entity:add(TileComponent(false))
-            engine:addEntity(entity)
-            matrix.matrix[i][j].entity = entity
-        end
-    end
+    grid:populate()
 end
 
 function love.update(dt)

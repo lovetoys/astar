@@ -54,12 +54,12 @@ function getAngle(x, y, xt, yt)
     return getRadian(x, y, xt, yt) * 180/math.pi
 end
 
-function getTile(matrix, x, y)
+function getTile(grid, x, y)
     local xtile = math.ceil(x/40)
     local ytile = math.ceil(y/40)
-    if matrix.matrix[xtile] then
-        if matrix.matrix[xtile][ytile] then
-            return matrix.matrix[xtile][ytile]
+    if grid.grid[xtile] then
+        if grid.grid[xtile][ytile] then
+            return grid.grid[xtile][ytile]
         end
     end
 end

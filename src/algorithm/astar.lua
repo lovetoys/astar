@@ -60,19 +60,19 @@ function AStar:getLowestF()
 end
 
 function AStar:getPath(element)
-    local path = {}
+    local reversepath = {}
     local tile = element
     while tile do
-        table.insert(path, tile)
+        table.insert(reversepath, tile)
         if tile.parent then
             tile = tile.parent
         else
             tile = nil
         end
     end
-    local correctPath = {}
-    for i = #path, 1, -1 do
-        table.insert(correctPath, path[i])
+    local Path = {}
+    for i = #reversepath, 1, -1 do
+        table.insert(Path, reversepath[i])
     end
-    return correctPath 
+    return Path 
 end
