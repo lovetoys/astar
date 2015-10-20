@@ -11,18 +11,8 @@ end
 function MainKeySystem:fireEvent(event)
     if event.class.name == "KeyPressed" then
         if event.key == "escape" then
-            for i = grid:getWidth(), 1, -1 do
-                for j = grid:getHeight(), 1, -1 do
-                    engine:removeEntity(grid.grid[i][j].entity)
-                    local entity = Entity()
-                    grid.grid[i][j].index = i*grid:getHeight() + j
-                    entity:add(PositionComponent((i-1)*40, (j-1)*40))
-                    entity:add(TileComponent(false))
-                    engine:addEntity(entity)
-                    grid.grid[i][j].entity = entity
-                end
-            end
-            path = nil
+            grid:erase()
+            grid:populate()
         elseif event.key == "return" then
             for i = grid:getWidth(), 1, -1 do
                 for j = grid:getHeight(), 1, -1 do

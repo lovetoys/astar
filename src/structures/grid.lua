@@ -22,6 +22,7 @@ function Grid:getWidth()
     return self.width
 end
 
+-- Connects the tiles of the grid
 function Grid:connect()
     for index, column in pairs(self.grid) do
         for index2, row in pairs(self.grid[index]) do
@@ -45,6 +46,8 @@ function Grid:connect()
     end
 end
 
+-- This function connects the grid on the horizontal axis.
+-- It can be called on top of :connect()
 function Grid:connectHorizontal()
     for index, row in pairs(self.grid[1]) do
          self.grid[#self.grid][index].child.right = self.grid[1][index]
@@ -52,6 +55,8 @@ function Grid:connectHorizontal()
     end
 end
 
+-- This function connects the grid on the vertical axis.
+-- It can be called on top of :connect()
 function Grid:connectVertical()
     for index, column in pairs(self.grid) do
         self.grid[index][1].child.top = self.grid[index][#self.grid[index]]
@@ -59,6 +64,7 @@ function Grid:connectVertical()
     end
 end
 
+-- This function connects the grid normally, vertically and horizontally.
 function Grid:connectEverything()
     self:connect()
     self:connectHorizontal()
