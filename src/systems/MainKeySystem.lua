@@ -4,8 +4,8 @@ local PositionComponent, TileComponent, Collidable = Component.load({"PositionCo
 
 function MainKeySystem:initialize()
     System.initialize(self)
-    self.is_down = false
-    self.is_block = false
+    self.isDown = false
+    self.isBlock = false
 end
 
 function MainKeySystem:fireEvent(event)
@@ -51,20 +51,20 @@ function MainKeySystem:update()
         local tile = getTile(grid, x, y)
 
         -- Check if mouse is over a wall on initial keydown
-        if self.is_down == false then
+        if self.isDown == false then
             if tile then
                 if tile.entity:get("Collidable") then
-                    self.is_block = true
+                    self.isBlock = true
                 else
-                    self.is_block = false
+                    self.isBlock = false
                 end
-                self.is_down = true
+                self.isDown = true
             else
-                self.is_block = false
-                self.is_down = true
+                self.isBlock = false
+                self.isDown = true
             end
         end
-        if not self.is_block then
+        if not self.isBlock then
             if tile then
                 tile.entity:add(Collidable())
             end
@@ -76,6 +76,6 @@ function MainKeySystem:update()
             end
         end
     else
-        self.is_down = false
+        self.isDown = false
     end
 end
