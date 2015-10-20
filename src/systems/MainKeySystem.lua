@@ -1,26 +1,16 @@
 MainKeySystem = class("MainKeySystem", System)
 
-function MainKeySystem:__init()
+local PositionComponent, TileComponent, Collidable = Component.load({"PositionComponent", "TileComponent", "Collidable"})
+
+function MainKeySystem:initialize()
+    System.initialize(self)
     self.is_down = false
     self.is_block = false
 end
 
-function MainKeySystem.fireEvent(self, event)
-    if event.__name == "KeyPressed" then
-        if event.key == " " then
-            local x, y = love.mouse.getPosition()
-            local tile = getTile(grid, x, y)
-            self.is_down = true
-            if tile then
-                if tile.entity:get("Collidable") then
-                    self.is_block = true
-                else
-                    self.is_block = false
-                end
-            else
-                self.is_block = false
-            end
-        elseif event.key == "escape" then
+function MainKeySystem:fireEvent(event)
+    if event.class.name == "KeyPressed" then
+        if event.key == "escape" then
             for i = grid:getWidth(), 1, -1 do
                 for j = grid:getHeight(), 1, -1 do
                     engine:removeEntity(grid.grid[i][j].entity)
@@ -50,18 +40,30 @@ function MainKeySystem.fireEvent(self, event)
                 path = astar:find(beginning, ende)
             end
         end
-    else
-        if event.key == " " then
-            self.is_down = false
-        end
     end
 end
 
 
 function MainKeySystem:update()
-    if self.is_down then
+    if love.keyboard.isDown(" ") then
+        -- Get current tile
         local x, y = love.mouse.getPosition()
         local tile = getTile(grid, x, y)
+
+        -- Check if mouse is over a wall on initial keydown
+        if self.is_down == false then
+            if tile then
+                if tile.entity:get("Collidable") then
+                    self.is_block = true
+                else
+                    self.is_block = false
+                end
+                self.is_down = true
+            else
+                self.is_block = false
+                self.is_down = true
+            end
+        end
         if not self.is_block then
             if tile then
                 tile.entity:add(Collidable())
@@ -73,5 +75,7 @@ function MainKeySystem:update()
                 end
             end
         end
+    else
+        self.is_down = false
     end
 end

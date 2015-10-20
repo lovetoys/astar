@@ -1,6 +1,8 @@
 Grid = class("Grid")
 
-function Grid:__init(x, y)
+local PositionComponent, TileComponent = Component.load({"PositionComponent", "TileComponent"})
+
+function Grid:initialize(x, y)
     self.grid = {}
     for i = x, 1, -1 do
         self.grid[i] = {}

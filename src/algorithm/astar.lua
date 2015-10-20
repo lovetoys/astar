@@ -1,8 +1,5 @@
 AStar = class("AStar")
 
-function AStar:__init()
-end
-
 function AStar:find(start, goal)
     self.openlist = {}
     self.closedlist = {}
@@ -37,7 +34,7 @@ function AStar:find(start, goal)
                     child.parent = active
                     child.entity:get("TileComponent").active = true
                     if child == goal then
-                        return self:getPath(child)                        
+                        return self:getPath(child)
                     elseif not alreadyopen then
                         self.openlist[child.index] = child
                     end
@@ -74,5 +71,5 @@ function AStar:getPath(element)
     for i = #reversepath, 1, -1 do
         table.insert(Path, reversepath[i])
     end
-    return Path 
+    return Path
 end

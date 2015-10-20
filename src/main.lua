@@ -2,23 +2,26 @@
 require("lib/lovetoys/lovetoys")
 require("helper/math")
 require("helper/tables")
+
+--Components
+require("components/PositionComponent")
+require("components/TileComponent")
+require("components/Collidable")
+
 --Main Algorithm and Strucutres
 require("algorithm/astar")
 require("structures/grid")
+
 --Systems
-require("systems/tileDisplaySystem")
-require("systems/pathDisplaySystem")
-require("systems/mainKeySystem")
-require("systems/mainMousePressedSystem")
---Components
-require("components/positionComponent")
-require("components/tileComponent")
-require("components/collidable")
+require("systems/TileDisplaySystem")
+require("systems/PathDisplaySystem")
+require("systems/MainKeySystem")
+require("systems/MainMousePressedSystem")
 
 --Events
-require("events/keyPressed")
-require("events/keyReleased")
-require("events/mousePressed")
+require("events/KeyPressed")
+require("events/KeyReleased")
+require("events/MousePressed")
 
 function love.load()
     love.window.setMode(1280, 720, {fullscreen=false, resizable=false, vsync=true})
@@ -32,16 +35,16 @@ function love.load()
     eventManager = EventManager()
     local mainmouse = MainMousePressedSystem()
     local mainkey = MainKeySystem()
-    eventManager:addListener("KeyPressed", {mainkey, mainkey.fireEvent})
-    eventManager:addListener("KeyReleased", {mainkey, mainkey.fireEvent})
-    eventManager:addListener("MousePressed", {mainmouse, mainmouse.fireEvent})
+    eventManager:addListener("KeyPressed", mainkey, mainkey.fireEvent)
+    eventManager:addListener("KeyReleased", mainkey, mainkey.fireEvent)
+    eventManager:addListener("MousePressed", mainmouse, mainmouse.fireEvent)
 
     grid = Grid(32, 18)
     grid:connectEverything()
 
-    engine:addSystem(TileDisplaySystem(), "draw", 1)
-    engine:addSystem(PathDisplaySystem(), "draw", 2)
-    engine:addSystem(mainkey, "logic", 1)
+    engine:addSystem(TileDisplaySystem())
+    engine:addSystem(PathDisplaySystem())
+    engine:addSystem(mainkey)
     grid:populate()
 end
 
@@ -57,7 +60,7 @@ function love.draw()
     love.graphics.print("Press and hold 'Space' for placing or removing blocks", 10, 70)
     love.graphics.print("Press 'Enter' to calculate the route", 10, 90)
     love.graphics.print("Press 'Escape' to reset the simulation", 10, 110)
-end 
+end
 
 function love.keypressed(key, isrepeat)
     eventManager:fireEvent(KeyPressed(key, isrepeat))
